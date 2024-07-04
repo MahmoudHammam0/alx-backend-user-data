@@ -3,7 +3,7 @@
 from typing import List
 import re
 import logging
-from os import environ
+import os
 import mysql.connector
 
 
@@ -32,12 +32,12 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """ connect to db using environ variables """
-    username = environ.get("PERSONAL_DATA_DB_USERNAME", "root")
-    password = environ.get("PERSONAL_DATA_DB_PASSWORD", "")
-    host = environ.get("PERSONAL_DATA_DB_HOST", "localhost")
-    db = environ.get("PERSONAL_DATA_DB_NAME")
+    user = os.environ.get("PERSONAL_DATA_DB_USERNAME", "root")
+    password = os.environ.get("PERSONAL_DATA_DB_PASSWORD", "")
+    host = os.environ.get("PERSONAL_DATA_DB_HOST", "localhost")
+    db = os.environ.get("PERSONAL_DATA_DB_NAME")
 
-    connect = mysql.connector.connection.MySQLConnection(user=username,
+    connect = mysql.connector.connection.MySQLConnection(user=user,
                                                          password=password,
                                                          host=host,
                                                          database=db)
