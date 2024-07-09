@@ -2,6 +2,7 @@
 """ Authentication class module """
 from flask import request
 from typing import List, TypeVar
+import fnmatch
 
 
 class Auth:
@@ -13,9 +14,11 @@ class Auth:
         """ checks if the path in excluded paths """
         if path is None or excluded_paths is None or excluded_paths == []:
             return True
-        slash_path = path + "/"
-        if path in excluded_paths or slash_path in excluded_paths:
-            return False
+        for pattern in excluded_paths:
+            if fnmatch.fnmatch(path, pattern):
+                return False
+            if fnmatch.fnmatch(path + "/", pattern):
+                return False
         return True
 
     def authorization_header(self, request=None) -> str:
