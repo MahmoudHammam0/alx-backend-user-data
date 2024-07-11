@@ -2,7 +2,7 @@
 """ Expiration class for session authentication module """
 from api.v1.auth.session_auth import SessionAuth
 from datetime import datetime, timedelta
-from os import environ
+from os import getenv
 
 
 class SessionExpAuth(SessionAuth):
@@ -11,7 +11,7 @@ class SessionExpAuth(SessionAuth):
         """ initialization """
         super().__init__()
         try:
-            exp = int(environ.get('SESSION_DURATION'))
+            exp = int(getenv('SESSION_DURATION', 0))
         except ValueError:
             exp = 0
 
