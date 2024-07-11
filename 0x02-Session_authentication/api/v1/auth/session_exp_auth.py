@@ -2,6 +2,7 @@
 """ Expiration class for session authentication module """
 from api.v1.auth.session_auth import SessionAuth
 from datetime import datetime, timedelta
+from os import environ
 
 
 class SessionExpAuth(SessionAuth):
@@ -10,7 +11,7 @@ class SessionExpAuth(SessionAuth):
         """ initialization """
         try:
             self.session_duration = int(environ.get('SESSION_DURATION'))
-        except Exception:
+        except ValueError:
             self.session_duration = 0
 
     def create_session(self, user_id=None) -> str:
@@ -31,15 +32,17 @@ class SessionExpAuth(SessionAuth):
         if not session_dict:
             return None
 
+        if self.session_duration <= 0:
+            return user_id
+
         created_at = session_dict['created_at']
         if not created_at:
             return None
 
         now = datetime.now()
         
-        if self.session_duration > 0:
-            check_time = created_at + timedelta(seconds=self.session_duration)
-            if check_time < now:
-                return None
+        check_time = created_at + timedelta(seconds=self.session_duration)
+        if check_time < now:
+            return None
 
         return session_dict['user_id']
