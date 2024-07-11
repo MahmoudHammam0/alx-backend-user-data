@@ -38,6 +38,6 @@ def login() -> str:
 def logout() -> str:
     """ session authentication logout handler """
     from api.v1.app import auth
-    if auth.destroy_session(request) == False:
+    if not auth.destroy_session(request):
         abort(404)
     return jsonify({}), 200
