@@ -32,6 +32,9 @@ class SessionExpAuth(SessionAuth):
         if not session_dict:
             return None
 
+        if not session_dict['user_id']:
+            return None
+
         if self.session_duration <= 0:
             return user_id
 
