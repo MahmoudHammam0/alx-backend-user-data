@@ -16,8 +16,11 @@ class SessionDBAuth(SessionExpAuth):
 
     def user_id_for_session_id(self, session_id=None):
         """ returns the User ID by requesting UserSession in the database """
-        users_list = UserSession.search({"session_id": session_id})
-        if users_list == []:
+        try:
+            users_list = UserSession.search({"session_id": session_id})
+        except Exception:
+            return None
+        if not users_list:
             return None
         created_at = users_list[0].get('created_at')
         check_time = created_at + timedelta(seconds=self.session_duration)
@@ -29,8 +32,11 @@ class SessionDBAuth(SessionExpAuth):
     def destroy_session(self, request=None):
         """ remove the session based on the session id """
         session_id = self.session_cookie(request)
-        users_list = UserSession.search({'session_id': session_id})
-        if users_list == []:
+        try:
+            users_list = UserSession.search({'session_id': session_id})
+        except Exception:
             return False
-        user_session[0].remove()
+        if not users_list:
+            return False
+        users_list[0].remove()
         return True
