@@ -40,7 +40,7 @@ class SessionExpAuth(SessionAuth):
             return None
 
         now = datetime.now()
-        
+
         check_time = created_at + timedelta(seconds=self.session_duration)
         if check_time < now:
             return None
