@@ -8,19 +8,19 @@ from os import environ
 
 @app_views.route('/auth_session/login',
                  methods=['POST'], strict_slashes=False)
-def login():
+def login() -> str:
     """ session authentication login handle """
     email = request.form.get('email')
     password = request.form.get('password')
 
     if not email or email == "":
-        abort(jsonify({ "error": "email missing" }), 400)
+        return jsonify({ "error": "email missing" }), 400
     if not password or password == "":
-        abort(jsonify({ "error": "password missing" }), 400)
+        return jsonify({ "error": "password missing" }), 400
 
     users_list = User.search({"email": email})
     if users_list == []:
-        abort(jsonify({ "error": "no user found for this email" }), 404)
+        return jsonify({ "error": "no user found for this email" }), 404
 
     if users_list[0].is_valid_password(password):
         from api.v1.app import auth
@@ -30,4 +30,4 @@ def login():
         res.set_cookie(cookie_name, session_id)
         return res
 
-    abort(jsonify({ "error": "wrong password" }), 401)
+    return jsonify({ "error": "wrong password" }), 401
