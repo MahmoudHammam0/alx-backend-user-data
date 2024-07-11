@@ -9,6 +9,7 @@ class SessionExpAuth(SessionAuth):
     """ Expiration class for session auth """
     def __init__(self):
         """ initialization """
+        super().__init__()
         try:
             self.session_duration = int(environ.get('SESSION_DURATION'))
         except ValueError:
