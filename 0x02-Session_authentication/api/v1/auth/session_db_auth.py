@@ -11,7 +11,7 @@ class SessionDBAuth(SessionExpAuth):
         """ overload of create session but with UserSession """
         session_id = super().create_session(user_id)
         kargs = {"session_id": session_id, "user_id": user_id}
-        user = UserSession(kargs)
+        user = UserSession(**kargs)
         return session_id
 
     def user_id_for_session_id(self, session_id=None):
