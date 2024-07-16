@@ -43,6 +43,7 @@ class DB:
         """ filter users by args and return first row """
         session = self._session
         res = session.query(User).filter_by(**kwargs).first()
+        print(res)
         if not res:
             raise NoResultFound
         return res
