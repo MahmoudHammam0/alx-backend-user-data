@@ -39,7 +39,7 @@ class DB:
         session.commit()
         return new_user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs: dict) -> User:
         """ filter users by args and return first row """
         session = self._session
         res = session.query(User).filter_by(**kwargs).first()
