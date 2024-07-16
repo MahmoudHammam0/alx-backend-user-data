@@ -42,8 +42,10 @@ class DB:
     def find_user_by(self, **kwargs: dict) -> User:
         """ filter users by args and return first row """
         session = self._session
-        res = session.query(User).filter_by(**kwargs).first()
-        print(res)
+        try:
+            res = session.query(User).filter_by(**kwargs).first()
+        except Exception:
+            raise InvalidRequestError
         if not res:
             raise NoResultFound
         return res
