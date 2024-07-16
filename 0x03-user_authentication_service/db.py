@@ -8,6 +8,7 @@ from typing import TypeVar
 from user import Base, User
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
+import bcrypt
 
 
 class DB:
