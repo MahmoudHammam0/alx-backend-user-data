@@ -6,6 +6,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from typing import TypeVar
 from user import Base, User
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 
 
 class DB:
@@ -36,3 +38,11 @@ class DB:
         session.add(new_user)
         session.commit()
         return new_user
+
+    def find_user_by(self, **kwargs):
+        """ filter users by args and return first row """
+        session = self._session
+        res = session.query(User).filter_by(**kwargs).first()
+        if not res:
+            raise NoResultFound
+        return res
