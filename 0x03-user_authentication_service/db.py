@@ -39,13 +39,13 @@ class DB:
         session.commit()
         return new_user
 
-    def find_user_by(self, **kwargs: dict) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """ filter users by args and return first row """
         session = self._session
         try:
             res = session.query(User).filter_by(**kwargs).first()
-        except Exception:
-            raise InvalidRequestError
+        except Exception as error:
+            raise InvalidRequestError from error
         if not res:
             raise NoResultFound
         return res
