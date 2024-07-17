@@ -49,3 +49,13 @@ class Auth:
         if not res:
             return False
         return True
+
+    def create_session(self, email: str) -> str:
+        """ create a session and return its id """
+        try:
+            user = self._db.find_user_by(email=email)
+        except Exception:
+            return None
+        session_id = _generate_uuid()
+        setattr(user, session_id, session_id)
+        return session_id
