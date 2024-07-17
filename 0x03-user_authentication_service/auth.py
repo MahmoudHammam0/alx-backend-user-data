@@ -57,5 +57,8 @@ class Auth:
         except Exception:
             return None
         session_id = _generate_uuid()
-        setattr(user, session_id, session_id)
+        try:
+            self._db.update_user(user.id, session_id=session_id)
+        except Exception:
+            return None
         return session_id
