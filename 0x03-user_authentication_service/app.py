@@ -28,18 +28,13 @@ def users():
 
 @app.route('/sessions', methods=['POST'])
 def login() -> str:
-    """_summary_
-
-    Returns:
-        str: _description_
-    """
+    """ create a new session for a user and save it to cookie """
     email = request.form.get('email')
     password = request.form.get('password')
 
     if not (auth.valid_login(email, password)):
         abort(401)
     else:
-        # create a new session
         session_id = auth.create_session(email)
         response = jsonify({"email": email, "message": "logged in"})
         response.set_cookie('session_id', session_id)
