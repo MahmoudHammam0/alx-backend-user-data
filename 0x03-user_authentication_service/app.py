@@ -26,6 +26,5 @@ def users():
     return jsonify({"email": f"{email}", "message": "user created"})
 
 
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
