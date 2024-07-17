@@ -31,8 +31,7 @@ def sessions():
     """ create a session for a user and store session_id as cookie """
     email = request.form.get("email")
     password = request.form.get("password")
-    login = auth.valid_login(email, password)
-    if not login:
+    if not auth.valid_login(email, password):
         abort(401)
     else:
         session_id = auth.create_session(email)
