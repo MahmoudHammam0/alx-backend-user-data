@@ -34,10 +34,11 @@ def sessions():
     login = auth.valid_login(email, password)
     if not login:
         abort(401)
-    session_id = auth.create_session(email)
-    resp = jsonify({"email": email, "message": "logged in"})
-    resp.set_cookie("session_id", session_id)
-    return resp
+    else:
+        session_id = auth.create_session(email)
+        resp = jsonify({"email": email, "message": "logged in"})
+        resp.set_cookie("session_id", session_id)
+        return resp
 
 
 if __name__ == "__main__":
