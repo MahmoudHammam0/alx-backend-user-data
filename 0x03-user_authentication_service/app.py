@@ -32,6 +32,9 @@ def login() -> str:
     email = request.form.get("email")
     password = request.form.get("password")
 
+    if not email or not password:
+        abort(401)
+
     if not auth.valid_login(email, password):
         abort(401)
 
