@@ -27,7 +27,7 @@ def users():
 
 
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
-def sessions():
+def sessions() -> str:
     """ create a session for a user and store session_id as cookie """
     email = request.form.get("email")
     password = request.form.get("password")
