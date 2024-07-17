@@ -26,7 +26,7 @@ def users():
     return jsonify({"email": f"{email}", "message": "user created"})
 
 
-@app.route('/sessions', methods=['POST'])
+@app.route('/sessions', methods=['POST'], strict_slashes=False)
 def login() -> str:
     """ create a new session for a user and save it to cookie """
     email = request.form.get('email')
